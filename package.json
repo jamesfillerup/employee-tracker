@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "dotenv": "^16.0.1",
+    "inquirer": "^8.2.4",
+    "mysql": "^2.18.1",
+    "mysql2": "^2.3.3",
+    "node": "^17.7.2"
+  },
+  "scripts": {
+    "start": "node server.js"
+  },
+  "name": "employee-tracker",
+  "description": "## Description",
+  "version": "1.0.0",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jamesfillerup/employee-tracker.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jamesfillerup/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/jamesfillerup/employee-tracker#readme"
+}
