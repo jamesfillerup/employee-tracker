@@ -18,14 +18,34 @@ const db = mysql.createConnection(
     console.log('Connected to the employee database')
 );
 
-const questionMenu = [
-  {
-    type: 'table',
-    name: 'options',
-    message: 'What would you like to do?',
-    choices: listOptions
-  }
-]
+
+
+function questionPrompt (){
+
+  const questionMenu = [
+    {
+      type: 'list',
+      name: 'options',
+      message: 'What would you like to do?',
+      choices: listOptions
+    }
+  ]
+
+  inquirer.prompt(questionMenu)
+
+  .then ((answers) => {
+    switch (answers.options){
+      case 'View all departments':
+        viewDepartments();
+        break;
+    }
+  })
+}
+
+function viewDepartments (){
+  console.log('show departments')
+  
+}
 
 
 
