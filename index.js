@@ -13,7 +13,7 @@ const db = mysql.createConnection(
         user: 'root',
         //your mysql password
         password: 'Rockclimb#369',
-        database: 'employee-db'
+        database: 'employee_db'
     },
     console.log('Connected to the employee database')
 );
@@ -65,7 +65,13 @@ function questionPrompt (){
 
 function viewDepartments (){
   console.log('show departments')
-  
+  db.query(`SELECT * FROM department`, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.table(result);
+    questionPrompt();
+  })
 }
 function viewRoles (){
   console.log('show Roles')
@@ -85,7 +91,32 @@ function addRole (){
 }
 function addEmployee (){
   console.log('add Employee')
-  
+  inquirer.prompt(
+    [
+      {
+        type: 'input',
+        name: 'addFirst',
+        message: `What is the employee's first name?`,
+      },
+      {
+        type: 'input',
+        name: 'addLast',
+        message: `What is the employee's last name?`,
+      },
+      {
+        type: 'number',
+        name: 'roleId',
+        message: `What is the employee's role ID?`,
+        choices: inputOptions
+      },
+      {
+        type: 'number',
+        name: 'options',
+        message: `What is the employee's manager's ID?`,
+        choices: inputOptions
+      }
+    ]
+  );
 }
 function updateEmployee (){
   console.log('update employee')
@@ -93,8 +124,9 @@ function updateEmployee (){
 }
 function escape (){
   console.log('you have escaped')
-  
+  process.exit();
 }
 
 
 
+questionPrompt ();
