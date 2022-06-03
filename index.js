@@ -74,11 +74,25 @@ function viewDepartments (){
 };
 function viewRoles (){
   console.log('show Roles')
-  questionPrompt();
+
+  db.query(`SELECT * FROM role`, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.table(result);
+    questionPrompt();
+  })
 };
 function viewEmployees (){
   console.log('show Employees')
-  questionPrompt();
+
+  db.query(`SELECT * FROM employee`, (err, result) => {
+    if (err) {
+      console.log(err);
+    }
+    console.table(result);
+    questionPrompt();
+  })
 };
 function addDepartments (){
   console.log('add departments')
