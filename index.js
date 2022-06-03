@@ -136,19 +136,30 @@ function addRole (){
         message: `Please type the role salary`,
       },
       {
-        type: 'number',
+        type: 'list',
         name: 'addDepartmentID',
         message: `Please type the role's department ID`,
         choices: [1,2,3]
       }
     ]
   )
-  questionPrompt();
+  .then((answers) =>{
+    console.table(answers);
+    
+    db.query(`INSERT INTO role ( title, salary, department_id)
+    VALUES(?,?,?)`,[answers.addTitle, answers.addSalary, answers.addDepartmentID],(err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log('role added to database');
+      questionPrompt();
+    })
+  })
 };
 function addEmployee (){
   console.log('add Employee')
 
-  // connection.query("SELECT * FROM role", (err, pickRole) => {
+  // db.query("SELECT * FROM role", (err, pickRole) => {
   //   if (err) throw err;
   //   const roleChoice = [];
   //   pickRole.forEach(({ title, id }) => {
@@ -171,8 +182,8 @@ function addEmployee (){
         name: 'addLast',
         message: `What is the employee's last name?`,
       },
-            {
-        type: 'number',
+      {
+        type: 'list',
         name: 'roleId',
         message: `What is the employee's role ID?`,
         choices: [1,2,3,4,5,6,7]
@@ -184,28 +195,54 @@ function addEmployee (){
       //   choices: roleChoice
       // },
       {
-        type: 'number',
+        type: 'list',
         name: 'managerNumber',
-        message: `What is the employee's manager's ID?`,
+        message: `What is the employee's manager ID?`,
         choices: [3,5]
       }
     ]
   )
-  .then((answers) => {
+  .then((answers) =>{
     console.table(answers);
-    // connection.query(
-    //     `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES(?)`
-    // )
-    questionPrompt();
-})
+    
+    db.query(`INSERT INTO employee ( first_name, last_name, role_id, manager_id) 
+    VALUES(?,?,?,?)`,[answers.addFirst, answers.addLast, answers.roleId, answers.managerNumber],(err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log('employee added to database');
+      questionPrompt();
+    })
+  })
 };
 
 
 
 function updateEmployee (){
   console.log('update employee')
-  questionPrompt();
+  inquirer.prompt([
+    {
+      type: 'list',
+      name: 'updateRole',
+      message: `What's the new employee's role ID?`,
+      choices: [1,2,3,4,5,6,7]
+    },
+    {
+      type: 'list',
+      name: 'managerNumber',
+      message: `What is the new employee's manager ID?`,
+      choices: [3,5]
+    }
+  ])
+  .then((answers)=>{
+    db.query(`UPDATE employee SET role_id=?, manager_id=? WHERE first_name=?`,[answers.updateRole, answers.updateManagerId])
+
+
+    questionPrompt();
+  })
+  
 };
+
 function escape (){
   console.log('you have escaped')
   process.exit();
@@ -214,3 +251,9 @@ function escape (){
 
 
 questionPrompt();
+
+// QUESTIONS TO ASK AT OFFICE HOURS,
+
+// HOW DO YOU WRITE A FUNCTION THAT CALLS FROM EMPLOYEE AND CONNECTS THE DATA THAT IS UPDATED?
+
+// HOW TO DO A SMILIAR THING FOR THE DROPDOWN MENU BUT FOR NAMES ON MANAGERS?
