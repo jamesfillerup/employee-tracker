@@ -220,27 +220,49 @@ function addEmployee (){
 
 function updateEmployee (){
   console.log('update employee')
-  inquirer.prompt([
-    {
-      type: 'list',
-      name: 'updateRole',
-      message: `What's the new employee's role ID?`,
-      choices: [1,2,3,4,5,6,7]
-    },
-    {
-      type: 'list',
-      name: 'managerNumber',
-      message: `What is the new employee's manager ID?`,
-      choices: [3,5]
-    }
-  ])
-  .then((answers)=>{
-    db.query(`UPDATE employee SET role_id=?, manager_id=? WHERE first_name=?`,[answers.updateRole, answers.updateManagerId])
+  db.query(`SELECT id, first_name, last_name from employee`, (err, res) => {
+    if (err) throw new Error(err);
 
+    const employees = res.map(e => ({
+      name: e.first_name + ' ' + e.last_name,
+      id: e.id
+    }))
 
-    questionPrompt();
+    db.query(`SELECT id, title FROM role`, (err, result)=>{
+      if (err) throw new Error(err);
+      
+      const roles = result.map(role => ({
+        name: role.title,
+        id: role.id
+      }))
+      inquirer.prompt([
+        {
+          type: "list",
+          name: 'employeeId',
+          message: 'Which employee would you like to update?',
+          choices: employees
+        },
+        {
+          type: 'list',
+          name: 'updateRole',
+          message: `What's the new employee's role ID?`,
+          choices: roles
+        },
+        {
+          type: 'list',
+          name: 'managerNumber',
+          message: `What is the new employee's manager ID?`,
+          choices: employees
+        }
+      ])
+      .then((answers)=>{
+        db.query(`UPDATE employee SET role_id=?, manager_id=? WHERE id=?`,[answers.updateRole.id, answers.updateManagerId.id, answers.employeeId.id])
+    
+    
+        questionPrompt();
+      })
+    })
   })
-  
 };
 
 function escape (){
