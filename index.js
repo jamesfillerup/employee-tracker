@@ -72,6 +72,7 @@ function viewDepartments (){
     questionPrompt();
   })
 };
+
 function viewRoles (){
   console.log('show Roles')
 
@@ -158,18 +159,6 @@ function addRole (){
 };
 function addEmployee (){
   console.log('add Employee')
-
-  // db.query("SELECT * FROM role", (err, pickRole) => {
-  //   if (err) throw err;
-  //   const roleChoice = [];
-  //   pickRole.forEach(({ title, id }) => {
-  //     roleChoice.push({
-  //       name: title,
-  //       value: id
-  //     });
-  //   });
-  // });
-
   inquirer.prompt(
     [
       {
@@ -188,12 +177,6 @@ function addEmployee (){
         message: `What is the employee's role ID?`,
         choices: [1,2,3,4,5,6,7]
       },
-      // {
-      //   type: 'list',
-      //   name: 'roleId',
-      //   message: `What is the employee's role ID?`,
-      //   choices: roleChoice
-      // },
       {
         type: 'list',
         name: 'managerNumber',
@@ -223,14 +206,14 @@ function updateEmployee (){
   db.query(`SELECT id, first_name, last_name from employee`, (err, res) => {
     if (err) throw new Error(err);
 
-    const employees = res.map(e => ({
-      name: e.first_name + ' ' + e.last_name,
-      id: e.id
+    const employees = res.map(emp => ({
+      name: emp.first_name + ' ' + emp.last_name,
+      id: emp.id
     }))
 
     db.query(`SELECT id, title FROM role`, (err, result)=>{
       if (err) throw new Error(err);
-      
+
       const roles = result.map(role => ({
         name: role.title,
         id: role.id
@@ -250,20 +233,21 @@ function updateEmployee (){
         },
         {
           type: 'list',
-          name: 'managerNumber',
+          name: 'updateManagerId',
           message: `What is the new employee's manager ID?`,
           choices: employees
         }
       ])
       .then((answers)=>{
         db.query(`UPDATE employee SET role_id=?, manager_id=? WHERE id=?`,[answers.updateRole.id, answers.updateManagerId.id, answers.employeeId.id])
-    
-    
+
         questionPrompt();
       })
     })
   })
 };
+
+
 
 function escape (){
   console.log('you have escaped')
