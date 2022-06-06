@@ -2,7 +2,7 @@
 
 ## Description
 
-The purpose of this project is so that the user can input notes and save notes.
+The purpose of this project to create an employee tracker that the user can go inside and update and add items into the tracker.
 
 ![](img.png)
 
@@ -24,15 +24,15 @@ Please see video link for a walk through on how to clone it.
 <br><br>
 
 Once cloned you can download the following:
-* `npm i express`
-* `npm i mysql`
-* `npm i uniqid`
+* `npm init`
+* `npm i console.table dotenv inquirer mysql2 node`
+
 
 ## Usage
 
-After you have cloned the repo to your computer and downloaded its dependencies you can run `npm start`. Then open up in your browser `localhost:3001` and then it is ready to go.
+After you have cloned the repo to your computer and downloaded its dependencies you can run `node index` in the terminal. Then you will see the prompts that you can answer. 
 
-Click on the plus symbol then add the note you would like to make then click the save icon. To delete press the delete button next to the note.
+The answers will load and be updated to the database.
 
 
 ## License
@@ -47,5 +47,6 @@ To test this application run { npm test } in bash
 
 ## Contact Me
 
-jamespfillerup@gmail.com
+Github: jamesfillerup
+james@fillerupdev.com
 
